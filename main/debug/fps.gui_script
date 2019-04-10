@@ -1,0 +1,56 @@
+local fps = require("main.debug.fps")
+
+function init(self)
+	msg.post(".", "acquire_input_focus")
+
+	self.fps_node = gui.get_node("fps")
+	self.dt_node = gui.get_node("dt")
+	self.viewsize_node = gui.get_node("viewsize")
+
+	fps.init_graph(self)
+end
+
+function final(self)
+	msg.post(".", "release_input_focus")
+end
+
+function update(self, dt)
+	fps.update(dt)
+	fps.update_graph(self)
+
+	gui.set_text(self.fps_node, "FPS " .. fps.fps)
+
+	gui.set_text(self.dt_node, "sys dt "
+	.. math.floor(fps.sys_dt * 1000) .. " ms"
+	.. " / my " .. math.floor(fps.dt * 1000) .. " ms")
+
+	local vsync = "upd freq " .. sys.get_config("display.update_frequency")
+	if tonumber(sys.get_config("display.vsync")) == 1 then
+		vsync = vsync .. ", vsync on"
+	else
+		vsync = vsync .. ", vsync off"
+	end
+
+	--if fps.is_windows() or fps.is_html5() then
+	--	local x, y, w, h = defos.get_view_size()
+	--	gui.set_text(self.viewsize_node, "frame " .. w .. " x " .. h .. ", " .. vsync)
+	--else
+		gui.set_text(self.viewsize_node, vsync)
+	--end
+
+	-- gui.set_text(self.stack_node, monarch.dump_stack())
+end
+
+function on_message(self, message_id, message, sender)
+
+end
+
+function on_input(self, action_id, action)
+	-- Add input-handling code here
+	-- Remove this function if not needed
+end
+
+function on_reload(self)
+	-- Add input-handling code here
+	-- Remove this function if not needed
+end
