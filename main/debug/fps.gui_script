@@ -10,7 +10,11 @@ function init(self)
 	fps.init_graph(self)
 
 	self.renderer_node = gui.get_node("renderer")
-	gui.set_text(self.renderer_node, helper.get_vendor_info() .. "\n" .. helper.get_renderer_info() .. "\nOpenGL " .. helper.get_version_info())
+	local version = helper.get_version_info()
+	if string.find(string.sub(version, 1, 1), "%d") then
+		version = "OpenGL " .. version
+	end
+	gui.set_text(self.renderer_node, helper.get_vendor_info() .. "\n" .. helper.get_renderer_info() .. "\n" .. version)
 end
 
 function final(self)

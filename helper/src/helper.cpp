@@ -7,10 +7,8 @@
 
 #if defined(_WIN32)
 	#include <gl/GL.h>
-#elif defined(__EMSCRIPTEN__)
 #else
-	#include <GLES2/gl2.h>
-	#include <GLES2/gl2ext.h>
+	#include <GL/gl.h>
 #endif
 
 static int Helper_GetVendorInfo(lua_State *L)
