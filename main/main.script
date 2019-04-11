@@ -3,7 +3,7 @@ go.property("_angle", 0)
 
 local function update_pos(self)
 	local angle = self._angle / 180 * math.pi
-	local radius = 70
+	local radius = 150
 	go.set_position(vmath.vector3(math.cos(angle), math.sin(angle), 0) * radius + self._default_pos, go.get_id("/logo"))
 end
 
@@ -17,7 +17,7 @@ function init(self)
 	profiler.set_ui_vsync_wait_visible(false)
 
 	self._default_pos = go.get_position(go.get_id("/logo"))
-	go.animate("#main", "_angle", go.PLAYBACK_LOOP_FORWARD, -360, go.EASING_LINEAR, 3)
+	go.animate("#", "_angle", go.PLAYBACK_LOOP_FORWARD, -360, go.EASING_LINEAR, 36)
 	update_pos(self)
 end
 
@@ -27,5 +27,7 @@ end
 
 function on_input(self, action_id, action)
 	if action_id == hash("click") and action.pressed then
+	elseif action_id == hash("profiler") and action.pressed then
+		msg.post("@system:", "toggle_profile")
 	end
 end
